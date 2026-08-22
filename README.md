@@ -1,2 +1,4 @@
 # Simple-AI
-Just Ai For Learn
+a persian chatbot for you :)
+
+1. install chatbot dataset ()
