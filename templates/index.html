@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persian AI — 500K</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-icon small">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                            <path d="M12 6a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/>
+                        </svg>
+                    </div>
+                    <span>Persian AI</span>
+                </div>
+                <button id="newChatBtn" class="new-chat-btn" title="چت جدید">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="sidebar-sessions" id="sessionsList">
+                <!-- Sessions loaded dynamically -->
+            </div>
+            <div class="sidebar-footer">
+                <button id="toggleSidebar" class="sidebar-toggle">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="header-left">
+                        <button id="sidebarBtn" class="sidebar-btn" title="لیست چت‌ها">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12h18M3 6h18M3 18h18"/>
+                            </svg>
+                        </button>
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                                    <path d="M12 6a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/>
+                                </svg>
+                            </div>
+                            <h1 id="chatTitle">چت جدید</h1>
+                        </div>
+                    </div>
+                    <div class="status-badge" id="status">
+                        <span class="status-dot online"></span>
+                        <span class="status-text">آنلاین</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <main class="chat-container" id="chatContainer">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Welcome Message -->
+                    <div class="message bot-message">
+                        <div class="message-avatar">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                                <path d="M12 6a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/>
+                            </svg>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-sender">Persian AI</div>
+                            <div class="message-text">
+                                سلام! خوش اومدی. من Persian AI هستم. با حافظه، ابزارهای داخلی، Retrieval روی دیتاست بزرگ و یک Transformer کوچک کار می‌کنم. پیامت رو بنویس :)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Input Area -->
+            <footer class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            placeholder="پیامت رو بنویس..." 
+                            rows="1"
+                            autofocus
+                        ></textarea>
+                        <button id="sendBtn" class="send-btn" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"/>
+                                <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="clearBtn" class="action-btn" title="پاک کردن چت">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"/>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                            </svg>
+                        </button>
+                        <button id="copyBtn" class="action-btn" title="کپی مکالمه">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

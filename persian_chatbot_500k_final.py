@@ -1,11 +1,13 @@
 import os
 import re
+import ast
 import math
 import json
 import time
 import hashlib
 import datetime
 import difflib
+import operator
 import threading
 import random
 import tkinter as tk
@@ -241,12 +243,35 @@ def calculator(text):
     if not re.search(r"\d", expr) or not re.search(r"[+\-*/%]", expr):
         return None
     try:
-        value = eval(expr.replace("%", "/100"), {"__builtins__": {}}, {})
+        value = _safe_arith_eval(ast.parse(expr.replace("%", "/100"), mode="eval").body)
         if isinstance(value, (int, float)) and math.isfinite(float(value)):
             return f"حاصل میشه: {value:g} 🧮"
     except Exception:
         return None
     return None
+
+
+_ARITH_OPS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Mod: operator.mod,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+    ast.UAdd: operator.pos,
+}
+
+
+def _safe_arith_eval(node):
+    """Safely evaluate an arithmetic AST node (no function calls, names, or attributes)."""
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)) and not isinstance(node.value, bool):
+        return node.value
+    if isinstance(node, ast.BinOp) and type(node.op) in _ARITH_OPS:
+        return _ARITH_OPS[type(node.op)](_safe_arith_eval(node.left), _safe_arith_eval(node.right))
+    if isinstance(node, ast.UnaryOp) and type(node.op) in _ARITH_OPS:
+        return _ARITH_OPS[type(node.op)](_safe_arith_eval(node.operand))
+    raise ValueError("unsafe expression")
 
 
 def date_time_answer(text):

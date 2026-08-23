@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Dataset & generated artifacts (large / regenerable)
+mydataset_500k.txt
+mydataset_large.txt
+dataset_cache.pkl
+persian_gpt_model.pth
+persian_gpt_vocab.txt
+persian_gpt_meta.json
+persian_500k_*
+
+# Training logs
+train.log
+train.err
+train.pid
+
+# User data
+sessions/
+
+# IDE / OS
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
